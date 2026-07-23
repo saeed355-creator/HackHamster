@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-dark: #09090b;
+    --bg-card: #121218;
+    --bg-card-hover: #1c1c26;
+    --primary-red: #ff3b30;
+    --primary-red-hover: #ff5247;
+    --red-glow: rgba(255, 59, 48, 0.45);
+    --gold: #f59e0b;
+    --silver: #94a3b8;
+    --bronze: #d97706;
+  }
+
+  html, body {
+    background-color: var(--bg-dark);
+    color: #f8fafc;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    -webkit-tap-highlight-color: rgba(255, 59, 48, 0.2);
+  }
+
+  .font-syne {
+    font-family: 'Syne', sans-serif;
+  }
+
+  .font-outfit {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  h1, h2, h3, .font-heading {
+    font-family: 'Outfit', 'Space Grotesk', sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Fluid typography for main titles */
+  .fluid-hero-title {
+    font-size: clamp(2.25rem, 5vw + 1rem, 4.75rem);
+    line-height: 1.06;
+  }
+
+  .fluid-section-title {
+    font-size: clamp(1.75rem, 3.5vw + 0.8rem, 3.25rem);
+    line-height: 1.15;
+  }
+}
+
+/* Glassmorphic Luxury Cards */
+.glass-panel {
+  background: rgba(18, 18, 24, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.glass-panel-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(26, 26, 36, 0.94);
+  border-color: rgba(255, 59, 48, 0.5);
+  box-shadow: 0 25px 50px rgba(255, 59, 48, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px) scale(1.008);
+}
+
+@media (max-width: 640px) {
+  .glass-panel-hover:hover {
+    transform: none;
+  }
+}
+
+/* Glowing Text & Aura */
+.glow-red {
+  box-shadow: 0 0 40px rgba(255, 59, 48, 0.5);
+}
+
+.glow-text-red {
+  text-shadow: 0 0 30px rgba(255, 59, 48, 0.7);
+}
+
+.text-gradient-red {
+  background: linear-gradient(135deg, #ffffff 0%, #ff6b6b 35%, #ff3b30 70%, #e11d48 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* CONTINUOUS HAMSTER EYE BLINK ANIMATION */
+@keyframes eye-blink {
+  0%, 88%, 94%, 100% {
+    transform: scaleY(1);
+  }
+  91% {
+    transform: scaleY(0.08);
+  }
+}
+
+.animate-eye-blink {
+  animation: eye-blink 3s infinite ease-in-out;
+  transform-origin: center;
+}
+
+/* CYBER DISCO LIGHT BEAM ANIMATIONS */
+@keyframes disco-sweep-1 {
+  0% { transform: rotate(-35deg) translateY(-20px); opacity: 0.15; }
+  50% { transform: rotate(25deg) translateY(20px); opacity: 0.45; filter: hue-rotate(90deg); }
+  100% { transform: rotate(-35deg) translateY(-20px); opacity: 0.15; }
+}
+
+@keyframes disco-sweep-2 {
+  0% { transform: rotate(30deg) translateY(10px); opacity: 0.2; }
+  50% { transform: rotate(-30deg) translateY(-30px); opacity: 0.5; filter: hue-rotate(-90deg); }
+  100% { transform: rotate(30deg) translateY(10px); opacity: 0.2; }
+}
+
+.animate-disco-beam-1 {
+  animation: disco-sweep-1 7s ease-in-out infinite;
+}
+
+.animate-disco-beam-2 {
+  animation: disco-sweep-2 9s ease-in-out infinite;
+}
+
+/* FLOATING MATRIX CODE STREAMS ANIMATION */
+@keyframes code-stream-up {
+  0% { transform: translateY(100%) opacity(0); }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.8; }
+  100% { transform: translateY(-120%) opacity(0); }
+}
+
+.animate-code-stream {
+  animation: code-stream-up 12s linear infinite;
+}
+
+/* Cyber Grid & Background Animations */
+.cyber-grid {
+  background-size: clamp(30px, 4vw, 50px) clamp(30px, 4vw, 50px);
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.cyber-grid-red {
+  background-size: clamp(24px, 3vw, 40px) clamp(24px, 3vw, 40px);
+  background-image: 
+    linear-gradient(to right, rgba(255, 59, 48, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 59, 48, 0.06) 1px, transparent 1px);
+}
+
+/* HERO HUD MASCOT NEON GLOW PULSE */
+.hud-neon-glow {
+  box-shadow: 0 0 35px rgba(255, 59, 48, 0.8), 0 0 70px rgba(255, 59, 48, 0.4), inset 0 0 15px rgba(255, 59, 48, 0.5);
+  animation: neon-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes neon-pulse {
+  0% {
+    box-shadow: 0 0 25px rgba(255, 59, 48, 0.7), 0 0 50px rgba(255, 59, 48, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(255, 59, 48, 1), 0 0 90px rgba(255, 59, 48, 0.6), 0 0 120px rgba(255, 59, 48, 0.3);
+    transform: scale(1.04);
+  }
+  100% {
+    box-shadow: 0 0 25px rgba(255, 59, 48, 0.7), 0 0 50px rgba(255, 59, 48, 0.3);
+    transform: scale(1);
+  }
+}
+
+/* HERO RGB GLITCH ANIMATION */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip: rect(0, 0, 0, 0);
+}
+
+.glitch-text::before {
+  left: -2px;
+  text-shadow: 2px 0 #00ffff;
+  animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: 2px;
+  text-shadow: -2px 0 #ff0055;
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip: rect(10px, 9999px, 30px, 0); transform: skew(0.3deg); }
+  20% { clip: rect(40px, 9999px, 60px, 0); transform: skew(0.6deg); }
+  40% { clip: rect(15px, 9999px, 35px, 0); transform: skew(-0.3deg); }
+  60% { clip: rect(70px, 9999px, 90px, 0); transform: skew(0.2deg); }
+  80% { clip: rect(25px, 9999px, 45px, 0); transform: skew(-0.5deg); }
+  100% { clip: rect(50px, 9999px, 80px, 0); transform: skew(0.1deg); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip: rect(60px, 9999px, 80px, 0); transform: skew(-0.4deg); }
+  25% { clip: rect(20px, 9999px, 40px, 0); transform: skew(0.3deg); }
+  50% { clip: rect(80px, 9999px, 100px, 0); transform: skew(-0.2deg); }
+  75% { clip: rect(30px, 9999px, 50px, 0); transform: skew(0.5deg); }
+  100% { clip: rect(10px, 9999px, 30px, 0); transform: skew(-0.1deg); }
+}
+
+/* Background Plasma Floating Orb Animation */
+@keyframes plasma-orb {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 0.35;
+  }
+  33% {
+    transform: translate(30px, -40px) scale(1.15);
+    opacity: 0.55;
+  }
+  66% {
+    transform: translate(-25px, 30px) scale(0.9);
+    opacity: 0.25;
+  }
+}
+
+.animate-plasma {
+  animation: plasma-orb 10s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #242432;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff3b30;
+}
