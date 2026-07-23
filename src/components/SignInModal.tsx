@@ -45,6 +45,47 @@ export const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose }) => 
     }, 220);
   };
 
+  // Helper to extract clean display name from name input or email username
+  const getUserDisplayName = () => {
+    if (name.trim()) return name.trim();
+    if (email.trim()) {
+      const parts = email.split('@')[0];
+      const cleaned = parts.replace(/[._-]/g, ' ');
+      return cleaned
+        .split(' ')
+        .filter(Boolean)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+    }
+    return 'Hacker';
+  };
+
+  const triggerCelebrationConfetti = () => {
+    confetti({
+      particleCount: 120,
+      spread: 90,
+      origin: { y: 0.45 },
+      colors: ['#FF3B30', '#FFD700', '#22C55E', '#3B82F6', '#FFFFFF'],
+    });
+
+    setTimeout(() => {
+      confetti({
+        particleCount: 60,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.6 },
+        colors: ['#FF3B30', '#FFD700', '#FFFFFF'],
+      });
+      confetti({
+        particleCount: 60,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.6 },
+        colors: ['#FF3B30', '#FFD700', '#FFFFFF'],
+      });
+    }, 250);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password || isLoading) return;
@@ -54,17 +95,12 @@ export const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose }) => 
     setTimeout(() => {
       setIsLoading(false);
       setIsSuccess(true);
-      confetti({
-        particleCount: 140,
-        spread: 100,
-        origin: { y: 0.5 },
-        colors: ['#FF3B30', '#FFD700', '#22C55E', '#3B82F6', '#FFFFFF'],
-      });
+      triggerCelebrationConfetti();
 
       setTimeout(() => {
         handleModalClose();
-      }, 1900);
-    }, 1100);
+      }, 2600);
+    }, 1000);
   };
 
   const handleSocialSignIn = (provider: 'google' | 'github') => {
@@ -72,19 +108,12 @@ export const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose }) => 
     setTimeout(() => {
       setIsLoading(false);
       setIsSuccess(true);
-      confetti({
-        particleCount: 140,
-        spread: 100,
-        origin: { y: 0.5 },
-        colors: provider === 'google' 
-          ? ['#4285F4', '#EA4335', '#FBBC05', '#34A853', '#FFFFFF']
-          : ['#24292E', '#FF3B30', '#FFD700', '#A855F7', '#FFFFFF'],
-      });
+      triggerCelebrationConfetti();
 
       setTimeout(() => {
         handleModalClose();
-      }, 1900);
-    }, 1100);
+      }, 2600);
+    }, 1000);
   };
 
   return (
@@ -257,18 +286,87 @@ export const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose }) => 
                     </p>
                   </div>
 
-                  {/* SUCCESS STATE */}
+                  {/* SUCCESS STATE WITH 3D ANIMATION & DYNAMIC USER GREETING */}
                   {isSuccess ? (
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="py-6 text-center space-y-3"
+                      initial={{ opacity: 0, scale: 0.75, rotateX: 20 }}
+                      animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                      transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+                      className="py-5 text-center space-y-4"
                     >
-                      <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/60 flex items-center justify-center mx-auto text-emerald-400 shadow-xl shadow-emerald-500/20">
-                        <CheckCircle2 className="w-8 h-8 animate-bounce" />
+                      {/* 3D FLOATING SUCCESS SHIELD BADGE */}
+                      <motion.div
+                        animate={{ 
+                          scale: [1, 1.08, 1], 
+                          rotateY: [0, 10, -10, 0],
+                          y: [0, -6, 0]
+                        }}
+                        transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut' }}
+                        className="relative w-20 h-20 rounded-3xl bg-gradient-to-br from-[#FF3B30]/30 via-yellow-500/20 to-emerald-500/30 border-2 border-yellow-400 flex items-center justify-center mx-auto shadow-[0_0_40px_rgba(255,215,0,0.35)]"
+                      >
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-yellow-400/20 to-transparent animate-pulse" />
+                        <CheckCircle2 className="w-10 h-10 text-emerald-400 drop-shadow-[0_0_15px_rgba(34,197,94,0.8)]" />
+                        
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ repeat: Infinity, duration: 8, ease: 'linear' }}
+                          className="absolute -inset-2 rounded-full border border-dashed border-yellow-400/50 pointer-events-none"
+                        />
+                      </motion.div>
+
+                      {/* AUTHENTICATION BADGE */}
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-yellow-400/15 border border-yellow-400/50 text-yellow-300 text-[11px] font-mono font-bold tracking-widest uppercase shadow-md shadow-yellow-500/10"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-spin" />
+                        <span>SUCCESSFULLY AUTHENTICATED</span>
+                      </motion.div>
+
+                      {/* PROMINENT HEADING "THANK YOU <USER_NAME>!" */}
+                      <motion.div
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                        className="space-y-1"
+                      >
+                        <h3 className="font-syne text-2xl sm:text-3xl font-extrabold text-white tracking-tight uppercase leading-snug drop-shadow-md">
+                          THANK YOU,<br />
+                          <motion.span 
+                            animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+                            transition={{ repeat: Infinity, duration: 3 }}
+                            className="bg-gradient-to-r from-[#FF3B30] via-[#FFD700] to-[#FF3B30] bg-[length:200%_auto] bg-clip-text text-transparent glow-text-red font-black"
+                          >
+                            {getUserDisplayName()}!
+                          </motion.span>
+                        </h3>
+
+                        {/* SUBHEADING "FOR JOINING OUR COMMUNITY" */}
+                        <motion.h4
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3, duration: 0.5 }}
+                          className="font-syne text-sm sm:text-base font-bold text-yellow-300 tracking-wider uppercase pt-1 drop-shadow-sm"
+                        >
+                          FOR JOINING OUR COMMUNITY! 🚀
+                        </motion.h4>
+                        
+                        <p className="font-mono text-xs text-slate-300 pt-1">
+                          Welcome to HackHamster! Redirecting to your dashboard...
+                        </p>
+                      </motion.div>
+
+                      {/* 3D LASER PROGRESS BAR */}
+                      <div className="w-full bg-[#08080C] h-2 rounded-full overflow-hidden border border-yellow-400/30 mt-3 relative shadow-inner">
+                        <motion.div
+                          initial={{ width: '0%' }}
+                          animate={{ width: '100%' }}
+                          transition={{ duration: 2.2, ease: 'easeInOut' }}
+                          className="h-full bg-gradient-to-r from-[#FF3B30] via-[#FFD700] to-emerald-400 shadow-[0_0_12px_#FFD700]"
+                        />
                       </div>
-                      <h3 className="font-syne text-xl font-bold text-white tracking-tight">AUTHENTICATED! 🎉</h3>
-                      <p className="font-mono text-xs text-emerald-400">Welcome back, Hacker! Loading your dashboard...</p>
                     </motion.div>
                   ) : (
                     <div className="space-y-4">
